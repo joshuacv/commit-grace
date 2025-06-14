@@ -18,11 +18,6 @@ app.post('/api/commit', (req, res) => {
   if (!name || isNaN(amount)) {
     return res.status(400).json({ message: 'Invalid input' });
   }
-  const exists = commitments.find(c => c.name.toLowerCase() === name.toLowerCase());
-  if (exists) {
-    return res.status(409).json({ message: 'You have already committed.' });
-  }
-
   commitments.push({ name, amount: parseFloat(amount) });
   res.json({ message: 'Commitment added' });
 });
