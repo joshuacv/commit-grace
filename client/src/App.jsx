@@ -16,26 +16,40 @@ export default function App() {
     setTotal(data.total);
   };
 
-  const submitForm = async (e) => {
+const submitForm = async (e) => {
   e.preventDefault();
   if (!name || !amount) return;
 
   setLoading(true);
-  const res = await fetch(`${API_URL}/commit`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, amount }),
-  });
 
-  if (res.status === 409) {
-    alert("You've already submitted a commitment.");
-  } else {
+  try {
+    const res = await fetch(`${API_URL}/commit`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, amount }),
+    });
+
+    if (res.status === 409) {
+      alert("You've already submitted a commitment.");
+      setLoading(false);
+      return;
+    }
+
+    if (!res.ok) {
+      alert("Something went wrong.");
+      setLoading(false);
+      return;
+    }
+
     await fetchTotal();
     setName("");
     setAmount("");
+  } catch (error) {
+    console.error("Error submitting:", error);
+    alert("Network error.");
+  } finally {
+    setLoading(false);
   }
-
-  setLoading(false);
 };
 
   useEffect(() => {
