@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve frontend from Vite build
-app.use(express.static(path.join(__dirname, '../client/dist')));
+//app.use(express.static(path.join(__dirname, '../client/dist')));
 
 app.post('/api/commit', (req, res) => {
   const { name, amount } = req.body;
@@ -28,9 +28,9 @@ app.get('/api/total', (req, res) => {
 });
 
 // Fallback for SPA routing
-app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
-});
+//app.get('/', (req, res) => {
+//  res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+//});
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
