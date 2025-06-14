@@ -17,20 +17,26 @@ export default function App() {
   };
 
   const submitForm = async (e) => {
-    e.preventDefault();
-    if (!name || !amount) return;
+  e.preventDefault();
+  if (!name || !amount) return;
 
-    setLoading(true);
-    await fetch(`${API_URL}/commit`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, amount }),
-    });
+  setLoading(true);
+  const res = await fetch(`${API_URL}/commit`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, amount }),
+  });
+
+  if (res.status === 409) {
+    alert("You've already submitted a commitment.");
+  } else {
+    await fetchTotal();
     setName("");
     setAmount("");
-    setLoading(false);
-    fetchTotal();
-  };
+  }
+
+  setLoading(false);
+};
 
   useEffect(() => {
     fetchTotal();
