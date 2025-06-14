@@ -16,7 +16,6 @@ export default function App() {
     setTotal(data.total);
   };
 
-  
   const submitForm = async (e) => {
     e.preventDefault();
     if (!name || !amount) return;
